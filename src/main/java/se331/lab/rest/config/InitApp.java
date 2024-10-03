@@ -11,6 +11,7 @@ import se331.lab.rest.repository.EventRepository;
 @RequiredArgsConstructor
 public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     final EventRepository eventRepository;
+    final OrganizerRepository organizerRepository;
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         eventRepository.save(Event.builder()
@@ -49,5 +50,12 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .time("10.00am-6.00 pm.")
                 .petAllowed(true)
                 .organizer("Chiang Mai Municipality").build());
+
+        organizerRepository.save(Organizer.builder()
+                .organizationName("CAMT")
+                .address("239 Huay Kaew Rd, Chiang Mai").build());
+        organizerRepository.save(Organizer.builder()
+                .organizationName("Chiang Mai University")
+                .address("Chiang Mai").build());
     }
 }
