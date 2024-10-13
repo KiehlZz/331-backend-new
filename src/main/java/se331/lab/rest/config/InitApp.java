@@ -8,8 +8,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import se331.lab.rest.entity.Event;
 import se331.lab.rest.entity.Organizer;
+import se331.lab.rest.entity.Participant;
 import se331.lab.rest.repository.EventRepository;
 import se331.lab.rest.repository.OrganizerRepository;
+import se331.lab.rest.repository.ParticipantRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -18,9 +20,12 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     EventRepository eventRepository;
 
     final OrganizerRepository organizerRepository;
+    final ParticipantRepository participantRepository;
+
     @Override
     @Transactional
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        //Organizer
         Organizer org1, org2, org3;
         org1 = organizerRepository.save(Organizer.builder()
                 .name("CAMT").build());
@@ -28,6 +33,30 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .name("CMU").build());
         org3 = organizerRepository.save(Organizer.builder()
                 .name("ChiangMai").build());
+
+        //Participant
+        Participant p1, p2, p3, p4, p5;
+        p1 = participantRepository.save(Participant.builder()
+                .name("Ava")
+                .telNo("0698910466")
+                .build());
+        p2 = participantRepository.save(Participant.builder()
+                .name("Bryan")
+                .telNo("0698911234")
+                .build());
+        p3 = participantRepository.save(Participant.builder()
+                .name("Cathy")
+                .telNo("0698912121")
+                .build());
+        p4 = participantRepository.save(Participant.builder()
+                .name("Dan")
+                .telNo("0698911111")
+                .build());
+        p5 = participantRepository.save(Participant.builder()
+                .name("Evan")
+                .telNo("0698918888")
+                .build());
+
         Event tempEvent;
 
         tempEvent = eventRepository.save(Event.builder()
@@ -41,11 +70,14 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .build());
         tempEvent.setOrganizer(org1);
         org1.getOwnEvents().add(tempEvent);
+        p1.getEventHistory().add(tempEvent);
+        p2.getEventHistory().add(tempEvent);
+        p3.getEventHistory().add(tempEvent);
 
         tempEvent = eventRepository.save(Event.builder()
                 .category("Academic")
                 .title("Commencement Day")
-                .description("A time for taking celebration")
+                .description("A time for celebration")
                 .location("CMU Convention hall")
                 .date("21th Jan")
                 .time("8.00am-4.00 pm.")
@@ -53,6 +85,9 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .build());
         tempEvent.setOrganizer(org1);
         org1.getOwnEvents().add(tempEvent);
+        p4.getEventHistory().add(tempEvent);
+        p5.getEventHistory().add(tempEvent);
+        p1.getEventHistory().add(tempEvent);
 
         tempEvent = eventRepository.save(Event.builder()
                 .category("Cultural")
@@ -65,17 +100,23 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .build());
         tempEvent.setOrganizer(org2);
         org2.getOwnEvents().add(tempEvent);
+        p2.getEventHistory().add(tempEvent);
+        p3.getEventHistory().add(tempEvent);
+        p4.getEventHistory().add(tempEvent);
 
         tempEvent = eventRepository.save(Event.builder()
                 .category("Cultural")
                 .title("Songkran")
                 .description("Let's Play Water")
                 .location("Chiang Mai Moat")
-                .date("13th Aprill")
+                .date("13th April")
                 .time("10.00am-6.00 pm.")
                 .petAllowed(true)
                 .build());
         tempEvent.setOrganizer(org3);
         org3.getOwnEvents().add(tempEvent);
+        p5.getEventHistory().add(tempEvent);
+        p1.getEventHistory().add(tempEvent);
+        p2.getEventHistory().add(tempEvent);
     }
 }
